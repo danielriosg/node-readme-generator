@@ -50,3 +50,55 @@ const questions = [
   },
 ];
 
+const fs = require("fs");
+
+inquirer.prompt(questions).then((answers) => {
+  console.log("User answers:", answers);
+  generateREADME(answers); // Call the function to generate README content based on answers
+});
+
+function generateREADME(answers) {
+  // Create the content of the README.md file using the user's answers
+  const readmeContent = `
+# ${answers.projectTitle}
+
+## Description
+${answers.description}
+
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+- [Contributing](#contributing)
+- [Tests](#tests)
+- [Questions](#questions)
+
+## Installation
+${answers.installation}
+
+## Usage
+${answers.usage}
+
+## License
+This project is licensed under the ${answers.license} License.
+
+## Contributing
+${answers.contribution}
+
+## Tests
+${answers.tests}
+
+## Questions
+For additional questions, contact ${answers.githubUsername} at ${answers.email}.
+`;
+
+  // Write the content to the README.md file
+  fs.writeFile("README.md", readmeContent, (err) => {
+    if (err) {
+      console.error("Error writing README.md:", err);
+    } else {
+      console.log("README.md file created successfully.");
+    }
+  });
+}
+
